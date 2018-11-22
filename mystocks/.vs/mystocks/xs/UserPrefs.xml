@@ -1,11 +1,5 @@
 ﻿<Properties StartupConfiguration="{352B049F-DF62-4AA8-80E9-9CF40DF50F74}|Default">
-  <MonoDevelop.Ide.ItemProperties.mystocks FirstBuild="True" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="mystocks/MainPage.xaml">
-    <Files>
-      <File FileName="mystocks/MainPage.xaml.cs" Line="1" Column="1" />
-      <File FileName="mystocks/MainPage.xaml" Line="7" Column="15" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
@@ -13,5 +7,5 @@
   <MonoDevelop.Ide.ItemProperties.mystocks.iOS FirstBuild="True" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.mystocks.Android PreferredExecutionTarget="Android.Android_Accelerated_Oreo" FirstBuild="True" />
+  <MonoDevelop.Ide.ItemProperties.mystocks.Android PreferredExecutionTarget="Android.Android_Accelerated_Oreo" AndroidDesignerPreferredTheme="Theme.DeviceDefault.NoActionBar.Fullscreen" />
 </Properties>
