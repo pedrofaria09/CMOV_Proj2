@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="WeatherApp.Views.AddCityPage"
+		     Title="{Binding Title}">
+    <ContentPage.Content>
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="Search for a new location to add"
+                   FontSize="Medium" />
+            <Entry Text="{Binding SearchName, Mode=TwoWay}"
+                   FontSize="Medium" />
+            <Button Text="Search"
+                    FontSize="Medium"
+                    Command="{Binding SearchCitiesCommand}"/>
+            <ListView x:Name="CitiesListView" 
+                      ItemsSource="{Binding CitiesFound}"
+                      SelectedItem="{Binding SelectedCity, Mode=TwoWay}"
+                      VerticalOptions="FillAndExpand"
+                      HasUnevenRows="true"
+                      IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                      CachingStrategy="RecycleElement"
+                      ItemSelected="OnItemSelected">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="10">
+                                    <Label Text="{Binding Name}" 
+                                       LineBreakMode="NoWrap" 
+                                       Style="{DynamicResource ListItemTextStyle}" 
+                                       FontSize="16" />
+                                    <Label Text="{Binding DisplayName}" 
+                                       LineBreakMode="NoWrap"
+                                       Style="{DynamicResource ListItemDetailTextStyle}"
+                                       FontSize="13" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

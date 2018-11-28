@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WeatherApp.Views.TodayWeatherPage"
+             Title="{Binding Title}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="Margin" Value="5,0,0,0"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <StackLayout HorizontalOptions="Start">
+
+        <Grid Padding="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Grid.Column="0" Grid.Row="0" Text="Condition:" FontSize="Medium" VerticalOptions="Center"/>
+            <StackLayout Grid.Column="1" Grid.Row="0" Orientation="Horizontal" VerticalOptions="Center">
+                <Label Text="{Binding Condition}" FontSize="Medium" VerticalOptions="Center"/>
+                <Image Aspect="AspectFit" Source="{Binding Icon}" />
+            </StackLayout>
+            <Label Grid.Column="0" Grid.Row="1" Text="Temperature:" FontSize="Medium" />
+            <Label Grid.Column="1" Grid.Row="1" Text="{Binding Temperature, StringFormat='{0} ºC'}" FontSize="Medium"/>
+            <Label Grid.Column="0" Grid.Row="2" Text="Temperature Feel:" FontSize="Medium" />
+            <Label Grid.Column="1" Grid.Row="2" Text="{Binding TemperatureFeel, StringFormat='{0} ºC'}" FontSize="Medium"/>
+            <Label Grid.Column="0" Grid.Row="3" Text="Precipitation:" FontSize="Medium" />
+            <Label Grid.Column="1" Grid.Row="3" Text="{Binding Precipitation, StringFormat='{0} mm'}" FontSize="Medium"/>
+            <Label Grid.Column="0" Grid.Row="4" Text="Wind:" FontSize="Medium" />
+            <Label Grid.Column="1" Grid.Row="4" Text="{Binding Wind, StringFormat='{0:N} km/h'}" FontSize="Medium"/>
+            <Label Grid.Column="0" Grid.Row="5" Text="Humidity:" FontSize="Medium" />
+            <Label Grid.Column="1" Grid.Row="5" Text="{Binding Humidity, StringFormat='{0} %'}" FontSize="Medium"/>
+        </Grid>
+        <Image Source="refresh_icon_small.png"
+               Aspect="AspectFit"
+               HeightRequest="15">
+            <Image.Style>
+                <Style TargetType="Image">
+                    <Style.Triggers>
+                        <DataTrigger TargetType="Image" Binding="{Binding Busy}" Value="True" >
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer
+                    Command="{Binding RefreshWeatherCommand}" />
+            </Image.GestureRecognizers>
+        </Image>
+    </StackLayout>
+</ContentPage>
