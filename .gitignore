@@ -1,7 +1,5 @@
-mystocks/mystocks.Android/obj/Debug/
-mystocks/mystocks.iOS/obj/
-mystocks/.vs/
-mystocks/mystocks.Android/
-mystocks/mystocks/obj/
-mystocks/mystocks/bin/
-mystocks/UpgradeLog.htm
+stock/stock/stock.Android/obj/
+stock/stock/stock/obj/
+stock/stock/stock.iOS/obj/
+stock/stock/stock/bin/
+stock/stock/stock.Android/bin/
