@@ -40,14 +40,14 @@ namespace stock.Views
                     company.IsSelected = true;
                     counter++;
                     DependencyService.Get<IMessage>().ShortAlert("You selected " + company.displayName + " company");
-                    ((StackLayout)sender).BackgroundColor = Color.Red;
+                    //((ListView)sender).BackgroundColor = Color.Red;
                 }
                 else
                 {
                     company.IsSelected = false;
                     counter--;
                     DependencyService.Get<IMessage>().ShortAlert("You deselected " + company.displayName + " company");
-                    ((StackLayout)sender).BackgroundColor = Color.Default;
+                    //((ListView)sender).BackgroundColor = Color.Default;
                 }
 
                 //CompaniesListView.SelectedItem = null;
