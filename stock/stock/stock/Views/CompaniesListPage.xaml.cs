@@ -39,22 +39,14 @@ namespace stock.Views
                 {
                     company.IsSelected = true;
                     counter++;
-                    DependencyService.Get<IMessage>().ShortAlert("You selected " + company.DisplayName + " company");
-                    //((ViewCell)sender).BackgroundColor = Color.Red;
                 }
                 else
                 {
                     company.IsSelected = false;
                     counter--;
-                    DependencyService.Get<IMessage>().ShortAlert("You deselected " + company.DisplayName + " company");
-                    //((ViewCell)sender).BackgroundColor = Color.Default;
                 }
-
-                //CompaniesListView.SelectedItem = null;
-                //Navigation.PushAsync(new CityWeatherPage(city));
             }
             ((ListView)sender).SelectedItem = null;
-
         }
 
         async void GenerateMap(object sender, EventArgs e)
