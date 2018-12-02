@@ -4,19 +4,26 @@ using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+using System.Diagnostics;
+using System.Globalization;
+
 namespace stock.MarkUpExtensions
 {
-    [ContentProperty("ResourceId")]
-    public class EmbeddedImage : IMarkupExtension
+    public class EmbeddedImage : IValueConverter
     {
-        public String ResourceId {get;set;}
 
-        public object ProvideValue(IServiceProvider serviceProvider)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (String.IsNullOrWhiteSpace(ResourceId))
+            if (String.IsNullOrWhiteSpace((String)value))
                 return null;
 
-            return ImageSource.FromResource(ResourceId);
+            return ImageSource.FromResource("stock.Resources."+value+".png");
         }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return "lol1";
+        }
+
     }
 }

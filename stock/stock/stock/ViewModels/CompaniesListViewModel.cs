@@ -49,27 +49,28 @@ namespace stock.ViewModels
 
         private void loadCompanies()
         {
-            Company c = new Company() { displayName = "Apple", symbol = "AAPL" };
+            Company c = new Company() { DisplayName = "Apple", Symbol = "AAPL"};
             Companies.Add(c);
-            c = new Company() { displayName = "IBM", symbol = "IBM" };
+            c = new Company() { DisplayName = "IBM", Symbol = "IBM"};
             Companies.Add(c);
-            c = new Company() { displayName = "Hewlett Packard", symbol = "HPQ" };
+            c = new Company() { DisplayName = "Hewlett Packard", Symbol = "HPQ"};
             Companies.Add(c);
-            c = new Company() { displayName = "Microsoft", symbol = "MSFT" };
+            c = new Company() { DisplayName = "Microsoft", Symbol = "MSFT"};
             Companies.Add(c);
-            c = new Company() { displayName = "Oracle", symbol = "ORCL" };
+            c = new Company() { DisplayName = "Oracle", Symbol = "ORCL"};
             Companies.Add(c);
-            c = new Company() { displayName = "Google", symbol = "GOOGL" };
+            c = new Company() { DisplayName = "Google", Symbol = "GOOGL"};
             Companies.Add(c);
-            c = new Company() { displayName = "Facebook", symbol = "FB" };
+            c = new Company() { DisplayName = "Facebook", Symbol = "FB"};
             Companies.Add(c);
-            c = new Company() { displayName = "Twitter", symbol = "TWTR" };
+            c = new Company() { DisplayName = "Twitter", Symbol = "TWTR"};
             Companies.Add(c);
-            c = new Company() { displayName = "Intel", symbol = "INTC" };
+            c = new Company() { DisplayName = "Intel", Symbol = "INTC"};
             Companies.Add(c);
-            c = new Company() { displayName = "AMD", symbol = "AMD" };
+            c = new Company() { DisplayName = "AMD", Symbol = "AMD"};
             Companies.Add(c);
         }
 
+        
     }
 }

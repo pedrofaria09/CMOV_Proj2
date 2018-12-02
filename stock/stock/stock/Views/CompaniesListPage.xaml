@@ -8,6 +8,11 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Generate" Clicked="GenerateMap" />
     </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <markupextensions:EmbeddedImage x:Key="intToBool" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
@@ -44,11 +49,12 @@
 
                                     <StackLayout Padding="10"
                                              Grid.Column="0">
-                                        <Label Text="{Binding displayName}" 
+                                        <Label Text="{Binding DisplayName}" 
                                                LineBreakMode="NoWrap" 
                                                Style="{DynamicResource ListItemTextStyle}" 
-                                               FontSize="16" />
-                                        <Label Text="{Binding symbol}" 
+                                               FontSize="16"
+                                               x:Name="company_name"/>
+                                        <Label Text="{Binding Symbol}" 
                                                LineBreakMode="NoWrap"
                                                Style="{DynamicResource ListItemDetailTextStyle}"
                                                FontSize="13" />
@@ -56,9 +62,10 @@
                                     <StackLayout Padding="10"
                                                  Grid.Column="1"
                                                  VerticalOptions="Center">
-                                        <Image Source="{markupextensions:EmbeddedImage stock.Resources.google.png}"
+                                        <Image Source="{Binding DisplayName, Converter={StaticResource intToBool}}"
                                                Aspect="AspectFit"
-                                               HeightRequest="15">
+                                               HeightRequest="15" 
+                                               >
                                         </Image>
                                     </StackLayout>
                                 </Grid>

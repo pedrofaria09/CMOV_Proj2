@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
+using Xamarin.Forms;
 
 namespace stock.Models
 {
     public class Company
     {
-        public string symbol { get; set; }
-        public string displayName { get; set; }
+        public string Symbol { get; set; }
+        public string DisplayName { get; set; }
     }
 }

@@ -94,7 +94,7 @@ namespace stock.ViewModels
                 return;
 
             IsBusy = true;
-            API.getHistory(company.symbol, "20181101", LoadHistoryHandler);
+            API.getHistory(company.Symbol, "20181101", LoadHistoryHandler);
         }
 
         private void LoadHistoryHandler(IAsyncResult asyncResult)

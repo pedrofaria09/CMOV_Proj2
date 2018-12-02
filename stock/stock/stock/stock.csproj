@@ -10,13 +10,29 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\google.png" />
+    <None Remove="Resources\Amd.png" />
+    <None Remove="Resources\Apple.png" />
+    <None Remove="Resources\Facebook.png" />
+    <None Remove="Resources\Google.png" />
+    <None Remove="Resources\Hewlett Packard.png" />
+    <None Remove="Resources\Ibm.png" />
+    <None Remove="Resources\Intel.png" />
+    <None Remove="Resources\Microsoft.png" />
+    <None Remove="Resources\Oracle.png" />
+    <None Remove="Resources\Twitter.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\google.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AMD.png" />
+    <EmbeddedResource Include="Resources\Apple.png" />
+    <EmbeddedResource Include="Resources\Facebook.png" />
+    <EmbeddedResource Include="Resources\Google.png" />
+    <EmbeddedResource Include="Resources\Hewlett Packard.png" />
+    <EmbeddedResource Include="Resources\IBM.png" />
+    <EmbeddedResource Include="Resources\Intel.png" />
+    <EmbeddedResource Include="Resources\Microsoft.png" />
+    <EmbeddedResource Include="Resources\Oracle.png" />
+    <EmbeddedResource Include="Resources\Twitter.png" />
   </ItemGroup>
 
   <ItemGroup>
