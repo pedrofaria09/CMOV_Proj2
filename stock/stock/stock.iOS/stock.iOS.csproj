@@ -95,6 +95,7 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MessageIOS.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -165,7 +166,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\stock\stock.csproj">
-      <Project>{BC365A6A-0905-4C07-8982-B10063C10103}</Project>
+      <Project>{9DEEFFC4-A05B-45B8-8BA0-0D4A7B056EA9}</Project>
       <Name>stock</Name>
     </ProjectReference>
   </ItemGroup>

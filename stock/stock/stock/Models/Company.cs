@@ -6,5 +6,6 @@ namespace stock.Models
     {
         public string symbol { get; set; }
         public string displayName { get; set; }
+        public bool IsSelected { get; set; }
     }
 }

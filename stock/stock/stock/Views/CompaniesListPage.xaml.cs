@@ -20,23 +20,41 @@ namespace stock.Views
     {
         CompaniesListViewModel viewModel;
         Company Company;
-       
-
+        int counter = 0;
         public CompaniesListPage()
         {
             InitializeComponent();
+
 
             BindingContext = viewModel = new CompaniesListViewModel();
         }
 
         void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
+            Debug.WriteLine("TESTE" + ((ListView)sender).SelectedItem);
             if (args.SelectedItem is Company company)
             {
                 Company = company;
+                if (!company.IsSelected)
+                {
+                    company.IsSelected = true;
+                    counter++;
+                    DependencyService.Get<IMessage>().ShortAlert("You selected " + company.displayName + " company");
+                    ((StackLayout)sender).BackgroundColor = Color.Red;
+                }
+                else
+                {
+                    company.IsSelected = false;
+                    counter--;
+                    DependencyService.Get<IMessage>().ShortAlert("You deselected " + company.displayName + " company");
+                    ((StackLayout)sender).BackgroundColor = Color.Default;
+                }
+
                 //CompaniesListView.SelectedItem = null;
                 //Navigation.PushAsync(new CityWeatherPage(city));
             }
+            ((ListView)sender).SelectedItem = null;
+
         }
 
         async void GenerateMap(object sender, EventArgs e)
