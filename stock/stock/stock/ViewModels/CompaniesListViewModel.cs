@@ -49,25 +49,25 @@ namespace stock.ViewModels
 
         private void loadCompanies()
         {
-            Company c = new Company() { displayName = "Apple", symbol = "AAPL", IsSelected = false };
+            Company c = new Company() { DisplayName = "Apple", Symbol = "AAPL", IsSelected = false };
             Companies.Add(c);
-            c = new Company() { displayName = "IBM", symbol = "IBM", IsSelected = false };
+            c = new Company() { DisplayName = "IBM", Symbol = "IBM", IsSelected = false };
             Companies.Add(c);
-            c = new Company() { displayName = "Hewlett Packard", symbol = "HPQ", IsSelected = false };
+            c = new Company() { DisplayName = "Hewlett Packard", Symbol = "HPQ", IsSelected = false };
             Companies.Add(c);
-            c = new Company() { displayName = "Microsoft", symbol = "MSFT", IsSelected = false };
+            c = new Company() { DisplayName = "Microsoft", Symbol = "MSFT", IsSelected = false };
             Companies.Add(c);
-            c = new Company() { displayName = "Oracle", symbol = "ORCL", IsSelected = false };
+            c = new Company() { DisplayName = "Oracle", Symbol = "ORCL", IsSelected = false };
             Companies.Add(c);
-            c = new Company() { displayName = "Google", symbol = "GOOGL", IsSelected = false };
+            c = new Company() { DisplayName = "Google", Symbol = "GOOGL", IsSelected = false };
             Companies.Add(c);
-            c = new Company() { displayName = "Facebook", symbol = "FB", IsSelected = false };
+            c = new Company() { DisplayName = "Facebook", Symbol = "FB", IsSelected = false };
             Companies.Add(c);
-            c = new Company() { displayName = "Twitter", symbol = "TWTR", IsSelected = false };
+            c = new Company() { DisplayName = "Twitter", Symbol = "TWTR", IsSelected = false };
             Companies.Add(c);
-            c = new Company() { displayName = "Intel", symbol = "INTC", IsSelected = false };
+            c = new Company() { DisplayName = "Intel", Symbol = "INTC", IsSelected = false };
             Companies.Add(c);
-            c = new Company() { displayName = "AMD", symbol = "AMD", IsSelected = false };
+            c = new Company() { DisplayName = "AMD", Symbol = "AMD", IsSelected = false };
             Companies.Add(c);
         }
 

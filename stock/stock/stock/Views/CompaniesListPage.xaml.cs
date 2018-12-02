@@ -39,15 +39,15 @@ namespace stock.Views
                 {
                     company.IsSelected = true;
                     counter++;
-                    DependencyService.Get<IMessage>().ShortAlert("You selected " + company.displayName + " company");
-                    //((ListView)sender).BackgroundColor = Color.Red;
+                    DependencyService.Get<IMessage>().ShortAlert("You selected " + company.DisplayName + " company");
+                    //((ViewCell)sender).BackgroundColor = Color.Red;
                 }
                 else
                 {
                     company.IsSelected = false;
                     counter--;
-                    DependencyService.Get<IMessage>().ShortAlert("You deselected " + company.displayName + " company");
-                    //((ListView)sender).BackgroundColor = Color.Default;
+                    DependencyService.Get<IMessage>().ShortAlert("You deselected " + company.DisplayName + " company");
+                    //((ViewCell)sender).BackgroundColor = Color.Default;
                 }
 
                 //CompaniesListView.SelectedItem = null;
