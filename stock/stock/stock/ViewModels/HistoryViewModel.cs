@@ -112,7 +112,7 @@ namespace stock.ViewModels
                     List<StockDetails> details = new List<StockDetails>();
                     foreach (JObject o in response["results"].Children<JObject>())
                     {
-                        //DateTime date = o["tradingDay"];
+                        DateTime date = DateTime.ParseExact((String)o["tradingDay"], "yyyy-MM-dd",null);
                         float openValue = (float)o["open"];
                         float highValue = (float)o["high"];
                         float lowValue = (float)o["low"];

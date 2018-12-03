@@ -15,24 +15,23 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout>
-                <Label Text="No locations to display. Please add a new location."
+        <StackLayout>
+            <Label Text="No locations to display. Please add a new location."
                    FontSize="Medium"
                    HorizontalOptions="Center">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="IsVisible" Value="False" />
-                            <Style.Triggers>
-                                <DataTrigger TargetType="Label" Binding="{Binding Path=IsCitiesEmpty}" Value="True" >
-                                    <Setter Property="IsVisible" Value="True" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
-                </Label>
-                
-                <ListView x:Name="CompaniesListView"
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Setter Property="IsVisible" Value="False" />
+                        <Style.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding Path=IsCitiesEmpty}" Value="True" >
+                                <Setter Property="IsVisible" Value="True" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
+
+            <ListView x:Name="CompaniesListView"
                           ItemsSource="{Binding Companies}"
                           VerticalOptions="FillAndExpand"
                           HasUnevenRows="true"
@@ -40,44 +39,44 @@
                           IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                           CachingStrategy="RecycleElement"
                           ItemSelected="OnItemSelected">
-                    
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid BackgroundColor="{Binding IsSelected, Converter={StaticResource ColorSelected},Mode=OneWay,UpdateSourceEventName=PropertyChanged}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    
-                                    <StackLayout Padding="10"
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid BackgroundColor="{Binding IsSelected, Converter={StaticResource ColorSelected},Mode=OneWay,UpdateSourceEventName=PropertyChanged}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackLayout Padding="10"
                                              Grid.Column="0"
                                                  >
-                                        <Label Text="{Binding DisplayName}" 
+                                    <Label Text="{Binding DisplayName}" 
                                                LineBreakMode="NoWrap" 
                                                Style="{DynamicResource ListItemTextStyle}" 
                                                FontSize="16"
                                                x:Name="company_name"/>
-                                        <Label Text="{Binding Symbol}" 
+                                    <Label Text="{Binding Symbol}" 
                                                LineBreakMode="NoWrap"
                                                Style="{DynamicResource ListItemDetailTextStyle}"
                                                FontSize="13" />
-                                    </StackLayout>
-                                    <StackLayout Padding="10"
+                                </StackLayout>
+                                <StackLayout Padding="10"
                                                  Grid.Column="1"
                                                  VerticalOptions="Center">
-                                        <Image Source="{Binding DisplayName, Converter={StaticResource ImageLoader}}"
+                                    <Image Source="{Binding DisplayName, Converter={StaticResource ImageLoader}}"
                                                Aspect="AspectFit"
-                                               HeightRequest="15" 
+                                               HeightRequest="30"
+                                               WidthRequest="100"
                                                >
-                                        </Image>
-                                    </StackLayout>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackLayout>
-        </ScrollView>
+                                    </Image>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

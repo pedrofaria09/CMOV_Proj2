@@ -82,38 +82,61 @@ namespace stock.Views
                     TextAlign = SKTextAlign.Center
                 };
 
-                SKPaint smallTextPaint = new SKPaint
+                SKPaint scalePaint = new SKPaint
                 {
                     Style = SKPaintStyle.Fill,
                     Color = Color.Gray.ToSKColor(),
-                    TextSize = 20,
-                    TextAlign = SKTextAlign.Center
+                    TextSize = 10,
+                    //TextAlign = SKTextAlign.Center
                 };
+
+                if (stockDetails.Count <= 0)
+                {
+                    return;
+                }
 
                 using (var path = new SKPath())
                 {
-                    //var minTemp = hourlyConditions.OrderBy(x => x.Temperature).First().Temperature - 2;
-                    //var maxTemp = hourlyConditions.OrderByDescending(x => x.Temperature).First().Temperature + 2;
+                    var minValue = stockDetails.OrderBy(x => x.closeValue).First().closeValue-1;// hourlyConditions.OrderBy(x => x.Temperature).First().Temperature - 2;
+                    var maxValue = stockDetails.OrderByDescending(x => x.closeValue).First().closeValue+1;
+                    var valueDifference = maxValue - minValue;
                     var horScale = 30f;
-                    var vertScale = 20f;
+                    var vertScale = 200f;
+                    var realVertScale = vertScale+10;
                     int x0 = 0;//(int)(2 * horScale);
-                    int y0 = 0;//(int)((maxTemp - minTemp + 3) * vertScale);
+                    int y0 = (int)(realVertScale);//(int)((maxTemp - minTemp + 3) * vertScale);
 
                     // Draw Horizontal Axis
                     canvas.DrawLine(x0, y0, x0 + 21f * horScale, y0, paint);
                     Debug.WriteLine("tamanho " + stockDetails.Count);
+
+                    // Draw Hour Vertical Line
+                    canvas.DrawLine(stockDetails.Count * horScale, realVertScale, stockDetails.Count * horScale, 10, paint);
+
+
+                    for (int j = 0; j < 5; j++)
+                    {
+                        canvas.DrawText((minValue + (j * valueDifference) / 4).ToString(), stockDetails.Count * horScale, (vertScale * ((4 - j) / (float)4))+14, scalePaint);
+                        Debug.WriteLine("texto " + (minValue + (j * valueDifference) / 4) + " " + (vertScale * ((4 - j) / (float)4)));
+                        Debug.WriteLine("lololololol " + (vertScale * ((4 - j) / (float)4)) + " " + ((4 - j) / (float)4));
+                        canvas.DrawLine(x0, (vertScale * ((4 - j) / (float)4)) + 10, x0 + 21f * horScale, (vertScale * ((4 - j) / (float)4)) + 10, paint);
+                    }
+
+
                     for (int i = 0; i < stockDetails.Count; i++)
                     {
-                        // Draw Hour Vertical Line
-                        //canvas.DrawLine(x0 + stockDetails[i].closeValue * horScale, y0, x0 + stockDetails[i].closeValue * horScale, y0 - ((maxTemp - minTemp) * vertScale), paint);
+                        
+                        // Draw Scale 
+                        
 
+                        //canvas.DrawText("22,7575", stockDetails.Count * horScale, 150, smallTextPaint);
                         // Draw Hour Value Text 
-                        //canvas.DrawText(hourlyConditions[i].Hour.ToString() + "h", x0 + hourlyConditions[i].Hour * horScale, y0 + vertScale, smallTextPaint);
+                        //canvas.DrawText(stockDetails[i].date.ToString(), i * (21f * horScale) / stockDetails.Count, vertScale*2, smallTextPaint);
 
                         // Draw Condition Image 
-                       /* DrawImage(canvas, hourlyConditions[i].Icon,
-                            x0 + hourlyConditions[i].Hour * horScale - 32,
-                            y0 - ((hourlyConditions[i].Temperature - minTemp) * vertScale) - 80);*/
+                        /* DrawImage(canvas, hourlyConditions[i].Icon,
+                             x0 + hourlyConditions[i].Hour * horScale - 32,
+                             y0 - ((hourlyConditions[i].Temperature - minTemp) * vertScale) - 80);*/
 
                         // Draw Temperature Value Text 
                         /*canvas.DrawText(
@@ -121,20 +144,23 @@ namespace stock.Views
                             x0 + hourlyConditions[i].Hour * horScale,
                             y0 - ((hourlyConditions[i].Temperature - minTemp - 1.5f) * vertScale),
                             textPaint);*/
-                        
-                        // Draw Temperature Line 
-                        if (i == 0)
-                            path.MoveTo(0, y0);
-                        else
-                            path.LineTo(i*(21f * horScale)/ stockDetails.Count, i);
 
-                        Debug.WriteLine("desenhei " + x0 + stockDetails[i].closeValue * horScale + " " + (y0 - (stockDetails[i].closeValue * vertScale)));
+                        // Draw Temperature Line 
+                        if (i == 0) {
+                            Debug.WriteLine("desenhei " +y0);
+                            path.MoveTo(0, y0); }
+                        else
+                        {
+                            path.LineTo(i * (21f * horScale) / stockDetails.Count, ((stockDetails[i].closeValue - minValue) * vertScale / valueDifference)+(realVertScale-vertScale));
+
+                            Debug.WriteLine("desenhei " + ((stockDetails[i].closeValue - stockDetails[i - 1].closeValue) * vertScale / 4));
+                        }
                     }
 
                     paint.Color = Color.Blue.ToSKColor();
                     paint.StrokeWidth = 2;
                     canvas.DrawPath(path, paint);
-                }
+                }   
             }
         }
 
