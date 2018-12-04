@@ -42,7 +42,6 @@ namespace stock.Views
         void Recalculate()
         {
             timeSpan = DateTime.Now - startDatePicker.Date;
-            Debug.WriteLine("DATA dif:" + timeSpan.Days);
         }
 
         void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
@@ -66,12 +65,13 @@ namespace stock.Views
 
         async void GenerateMap(object sender, EventArgs e)
         {
-            if(CompaniesSelected.Count < 1 || CompaniesSelected.Count > 2)
+            String date = startDatePicker.Date.ToString("yyyyMMdd");
+            if (CompaniesSelected.Count < 1 || CompaniesSelected.Count > 2)
                 DependencyService.Get<IMessage>().ShortAlert("Choose 1 or 2 Companies");
             else if (timeSpan.Days < 7 || timeSpan.Days > 30)
                 DependencyService.Get<IMessage>().ShortAlert("Choose between 7 and 30 days");
             else
-                await Navigation.PushModalAsync(new NavigationPage(new HistoryPage(CompaniesSelected)));
+                await Navigation.PushModalAsync(new NavigationPage(new HistoryPage(CompaniesSelected, date)));
         }
 
         protected override void OnAppearing()

@@ -22,11 +22,13 @@ namespace stock.Views
     {
         HistoryViewModel viewModel;
         List<Company> CompaniesSelected;
+        String date;
 
-        public HistoryPage(List<Company> companies)
+        public HistoryPage(List<Company> companies, string date)
         {
             InitializeComponent();
             this.CompaniesSelected = companies;
+            this.date = date;
             BindingContext = this.viewModel = new HistoryViewModel(companies);
             viewModel.stockDetails.CollectionChanged += StockDetails_CollectionChanged;
         }
