@@ -20,14 +20,12 @@ namespace stock.Views
     {
         CompaniesListViewModel viewModel;
         Company Company;
-        int counter = 0;
         TimeSpan timeSpan;
+        List<Company> CompaniesSelected = new List<Company>();
 
         public CompaniesListPage()
         {
             InitializeComponent();
-
-
             BindingContext = viewModel = new CompaniesListViewModel();
         }
 
@@ -55,12 +53,12 @@ namespace stock.Views
                 if (!company.IsSelected)
                 {
                     company.IsSelected = true;
-                    counter++;
+                    CompaniesSelected.Add(company);
                 }
                 else
                 {
                     company.IsSelected = false;
-                    counter--;
+                    CompaniesSelected.Remove(company);
                 }
             }
             ((ListView)sender).SelectedItem = null;
@@ -68,12 +66,12 @@ namespace stock.Views
 
         async void GenerateMap(object sender, EventArgs e)
         {
-            if(counter < 1 || counter > 2)
+            if(CompaniesSelected.Count < 1 || CompaniesSelected.Count > 2)
                 DependencyService.Get<IMessage>().ShortAlert("Choose 1 or 2 Companies");
             else if (timeSpan.Days < 7 || timeSpan.Days > 30)
                 DependencyService.Get<IMessage>().ShortAlert("Choose between 7 and 30 days");
             else
-                await Navigation.PushModalAsync(new NavigationPage(new HistoryPage(Company)));
+                await Navigation.PushModalAsync(new NavigationPage(new HistoryPage(CompaniesSelected)));
         }
 
         protected override void OnAppearing()

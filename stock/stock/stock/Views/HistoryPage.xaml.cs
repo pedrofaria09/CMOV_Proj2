@@ -21,28 +21,22 @@ namespace stock.Views
     public partial class HistoryPage : ContentPage
     {
         HistoryViewModel viewModel;
-        Company Company;
+        List<Company> CompaniesSelected;
 
-        public HistoryPage(Company company)
+        public HistoryPage(List<Company> companies)
         {
             InitializeComponent();
-            this.Company = company;
-            BindingContext = this.viewModel = new HistoryViewModel(company);
+            this.CompaniesSelected = companies;
+            BindingContext = this.viewModel = new HistoryViewModel(companies);
             viewModel.stockDetails.CollectionChanged += StockDetails_CollectionChanged;
-        }
-
-        public void SetCompany(Company company)
-        {
-            BindingContext = this.viewModel = new HistoryViewModel(company);
-            //viewModel.HourlyConditions.CollectionChanged += HourlyConditions_CollectionChanged;
         }
 
         private void StockDetails_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            Debug.WriteLine("tamanho teste" + viewModel.stockDetails.Count + " lol " + viewModel.CanDraw);
+            
             if (viewModel.CanDraw)
             {
-                Debug.WriteLine("tamanho teste" + viewModel.stockDetails.Count);
+                Debug.WriteLine("tamanho teste " + viewModel.stockDetails[0].Count + " lol " + viewModel.CanDraw);
                 HistoryGraph.InvalidateSurface();
             }
                 
@@ -54,8 +48,39 @@ namespace stock.Views
             await Task.Factory.StartNew(() => { viewModel.LoadHistory(); });
         }
 
+        private float getMaxValue()
+        {
+            float max = 0;
+            for(int i=0;i< viewModel.stockDetails.Count; i++)
+            {
+                for(int j=0;j< viewModel.stockDetails[i].Count; j++)
+                {
+                    if (viewModel.stockDetails[i][j].closeValue > max)
+                        max = viewModel.stockDetails[i][j].closeValue;
+                }
+            }
+            return max;
+        }
+
+        private float getMinValue()
+        {
+            float min = 9999999999;
+            for (int i = 0; i < viewModel.stockDetails.Count; i++)
+            {
+                for (int j = 0; j < viewModel.stockDetails[i].Count; j++)
+                {
+                    if (viewModel.stockDetails[i][j].closeValue < min)
+                        min = viewModel.stockDetails[i][j].closeValue;
+                }
+            }
+            return min;
+        }
+
         void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
         {
+            if (!viewModel.CanDraw)
+                return;
+
             SKImageInfo info = args.Info;
             SKSurface surface = args.Surface;
             SKCanvas canvas = surface.Canvas;
@@ -74,12 +99,49 @@ namespace stock.Views
                     StrokeWidth = 1
                 };
 
+                SKPaint cyanTracePaint = new SKPaint
+                {
+                    Style = SKPaintStyle.Stroke,
+                    Color = Color.FromRgba(0, 255, 255, 255).ToSKColor(),
+                    StrokeWidth = 1
+                };
+
+                SKPaint yellowTracePaint = new SKPaint
+                {
+                    Style = SKPaintStyle.Stroke,
+                    Color = Color.FromRgba(255, 255, 0, 255).ToSKColor(),
+                    StrokeWidth = 1
+                };
+
+                SKPaint invisiblePaint = new SKPaint
+                {
+                    Style = SKPaintStyle.Stroke,
+                    Color = Color.FromRgba(255,255,255,0).ToSKColor(),
+                    StrokeWidth = 1
+                };
+
                 SKPaint textPaint = new SKPaint
                 {
                     Style = SKPaintStyle.Fill,
                     Color = Color.Black.ToSKColor(),
                     TextSize = 30,
                     TextAlign = SKTextAlign.Center
+                };
+
+                SKPaint cyanFillPaint = new SKPaint
+                {
+                    Style = SKPaintStyle.Fill,
+                    Color = Color.FromRgba(0, 255, 255,100).ToSKColor(),
+                    TextSize = 10,
+                    //TextAlign = SKTextAlign.Center
+                };
+
+                SKPaint yellowFillPaint = new SKPaint
+                {
+                    Style = SKPaintStyle.Fill,
+                    Color = Color.FromRgba(255, 255,0, 100).ToSKColor(),
+                    TextSize = 10,
+                    //TextAlign = SKTextAlign.Center
                 };
 
                 SKPaint scalePaint = new SKPaint
@@ -95,72 +157,83 @@ namespace stock.Views
                     return;
                 }
 
-                using (var path = new SKPath())
+                List<SKPaint> fillColors = new List<SKPaint>();
+                fillColors.Add(cyanFillPaint);
+                fillColors.Add(yellowFillPaint);
+
+                List<SKPaint> traceColors = new List<SKPaint>();
+                traceColors.Add(cyanTracePaint);
+                traceColors.Add(yellowTracePaint);
+
+                var minValue = getMinValue() - 1;
+                var maxValue = getMaxValue() + 1;
+                var valueDifference = maxValue - minValue;
+                var horScale = 30f;
+                var vertScale = 200f;
+                var realVertScale = vertScale + 10;
+
+                for (int j = 0; j < 5; j++)
                 {
-                    var minValue = stockDetails.OrderBy(x => x.closeValue).First().closeValue-1;// hourlyConditions.OrderBy(x => x.Temperature).First().Temperature - 2;
-                    var maxValue = stockDetails.OrderByDescending(x => x.closeValue).First().closeValue+1;
-                    var valueDifference = maxValue - minValue;
-                    var horScale = 30f;
-                    var vertScale = 200f;
-                    var realVertScale = vertScale+10;
-                    int x0 = 0;//(int)(2 * horScale);
-                    int y0 = (int)(realVertScale);//(int)((maxTemp - minTemp + 3) * vertScale);
+                    canvas.DrawText((minValue + (j * valueDifference) / 4).ToString(), stockDetails[0].Count * horScale, (vertScale * ((4 - j) / (float)4)) + 14, scalePaint);
+                    canvas.DrawLine(0, (vertScale * ((4 - j) / (float)4)) + 10, 21f * horScale, (vertScale * ((4 - j) / (float)4)) + 10, paint);
+                }
 
-                    // Draw Horizontal Axis
-                    canvas.DrawLine(x0, y0, x0 + 21f * horScale, y0, paint);
-                    Debug.WriteLine("tamanho " + stockDetails.Count);
+                for (int k = 0;k< stockDetails.Count; k++)
+                {
 
-                    // Draw Hour Vertical Line
-                    canvas.DrawLine(stockDetails.Count * horScale, realVertScale, stockDetails.Count * horScale, 10, paint);
+                    var stockDetail = stockDetails[k];
 
-
-                    for (int j = 0; j < 5; j++)
+                    var invisiblePath = new SKPath();
+                    using (var path = new SKPath())
                     {
-                        canvas.DrawText((minValue + (j * valueDifference) / 4).ToString(), stockDetails.Count * horScale, (vertScale * ((4 - j) / (float)4))+14, scalePaint);
-                        Debug.WriteLine("texto " + (minValue + (j * valueDifference) / 4) + " " + (vertScale * ((4 - j) / (float)4)));
-                        Debug.WriteLine("lololololol " + (vertScale * ((4 - j) / (float)4)) + " " + ((4 - j) / (float)4));
-                        canvas.DrawLine(x0, (vertScale * ((4 - j) / (float)4)) + 10, x0 + 21f * horScale, (vertScale * ((4 - j) / (float)4)) + 10, paint);
-                    }
 
+                        var localMinValue = stockDetails[k].OrderBy(x => x.closeValue).First().closeValue - 1;// hourlyConditions.OrderBy(x => x.Temperature).First().Temperature - 2;
+                        var localMaxValue = stockDetails[k].OrderByDescending(x => x.closeValue).First().closeValue + 1;
+                        var localValueDifference = localMaxValue - localMinValue;
 
-                    for (int i = 0; i < stockDetails.Count; i++)
-                    {
                         
-                        // Draw Scale 
+                        
+                        int x0 = 0;//(int)(2 * horScale);
+                        int y0 = (int)(realVertScale);//(int)((maxTemp - minTemp + 3) * vertScale);
+
+                        invisiblePath.MoveTo(0, y0);
+
+                        // Draw Horizontal Axis
+                        canvas.DrawLine(x0, y0, 21f * horScale, y0, paint);
+                        Debug.WriteLine("tamanho " + stockDetail.Count);
+
+                        // Draw Hour Vertical Line
+                        canvas.DrawLine(21f * horScale, realVertScale, 21f * horScale, 10, paint);
+
+
                         
 
-                        //canvas.DrawText("22,7575", stockDetails.Count * horScale, 150, smallTextPaint);
-                        // Draw Hour Value Text 
-                        //canvas.DrawText(stockDetails[i].date.ToString(), i * (21f * horScale) / stockDetails.Count, vertScale*2, smallTextPaint);
-
-                        // Draw Condition Image 
-                        /* DrawImage(canvas, hourlyConditions[i].Icon,
-                             x0 + hourlyConditions[i].Hour * horScale - 32,
-                             y0 - ((hourlyConditions[i].Temperature - minTemp) * vertScale) - 80);*/
-
-                        // Draw Temperature Value Text 
-                        /*canvas.DrawText(
-                            hourlyConditions[i].Temperature.ToString(),
-                            x0 + hourlyConditions[i].Hour * horScale,
-                            y0 - ((hourlyConditions[i].Temperature - minTemp - 1.5f) * vertScale),
-                            textPaint);*/
-
-                        // Draw Temperature Line 
-                        if (i == 0) {
-                            Debug.WriteLine("desenhei " +y0);
-                            path.MoveTo(0, y0); }
-                        else
+                        int i;
+                        for (i = 0; i < stockDetail.Count; i++)
                         {
-                            path.LineTo(i * (21f * horScale) / stockDetails.Count, ((stockDetails[i].closeValue - minValue) * vertScale / valueDifference)+(realVertScale-vertScale));
+                            // Draw Temperature Line 
+                            Debug.WriteLine("tou a desenhar " + stockDetail[i].closeValue);
+                            if (i == 0)
+                            {
+                                path.MoveTo(i * (21f * horScale) / (stockDetail.Count - 1), ((stockDetail[i].closeValue - localMinValue) * vertScale / localValueDifference) + (realVertScale - vertScale));
+                            }
+                            else
+                            {
+                                path.LineTo(i * (21f * horScale) / (stockDetail.Count - 1), ((stockDetail[i].closeValue - localMinValue) * vertScale / localValueDifference) + (realVertScale - vertScale));
+                            }
+                            invisiblePath.LineTo(i * (21f * horScale) / (stockDetail.Count - 1), ((stockDetail[i].closeValue - localMinValue) * vertScale / localValueDifference) + (realVertScale - vertScale));
 
-                            Debug.WriteLine("desenhei " + ((stockDetails[i].closeValue - stockDetails[i - 1].closeValue) * vertScale / 4));
                         }
-                    }
 
-                    paint.Color = Color.Blue.ToSKColor();
-                    paint.StrokeWidth = 2;
-                    canvas.DrawPath(path, paint);
-                }   
+                        paint.Color = Color.Blue.ToSKColor();
+                        paint.StrokeWidth = 2;
+                        canvas.DrawPath(path, traceColors[k]);
+                        invisiblePath.LineTo(i * (21f * horScale) / (stockDetail.Count), vertScale + (realVertScale - vertScale));
+                        canvas.DrawPath(invisiblePath, invisiblePaint);
+                        canvas.DrawPath(invisiblePath, fillColors[k]);
+                    }
+                }
+                
             }
         }
 

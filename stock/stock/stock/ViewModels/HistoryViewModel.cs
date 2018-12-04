@@ -15,14 +15,16 @@ namespace stock.ViewModels
     public class HistoryViewModel : BaseViewModel
     {
         public Company company { get; set; }
-        public ObservableCollection<StockDetails> stockDetails { get; set; }
+        public ObservableCollection<List<StockDetails>> stockDetails { get; set; }
         public bool CanDraw { get; set; }
-
-        public HistoryViewModel(Company c = null)
+        List<Company> CompaniesSelected;
+        
+        public HistoryViewModel(List<Company> companies = null)
         {
             Title = "Past Days";
-            company = c;
-            stockDetails = new ObservableCollection<StockDetails>();
+            //company = c;
+            CompaniesSelected = companies;
+            stockDetails = new ObservableCollection<List<StockDetails>>();
         }
 
         /*DateTime selectedDate = DateTime.Today.AddDays(-1);
@@ -94,7 +96,11 @@ namespace stock.ViewModels
                 return;
 
             IsBusy = true;
-            API.getHistory(company.Symbol, "20181101", LoadHistoryHandler);
+            for(int i=0;i< CompaniesSelected.Count; i++)
+            {
+                API.getHistory(CompaniesSelected[i].Symbol, "20181101", LoadHistoryHandler);
+            }
+            
         }
 
         private void LoadHistoryHandler(IAsyncResult asyncResult)
@@ -127,12 +133,9 @@ namespace stock.ViewModels
                     }
                     Device.BeginInvokeOnMainThread(() =>
                     {
-                        for (int i = 0; i < details.Count; i++)
-                        {
-                            if (i == details.Count - 1)
-                                CanDraw = true;
-                            stockDetails.Add(details[i]);
-                        }
+                        Debug.WriteLine("vou autorizar " + details.Count);
+                        CanDraw = true;
+                        stockDetails.Add(details);
                     });
                     
                 }
