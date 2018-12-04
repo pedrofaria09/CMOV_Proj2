@@ -18,12 +18,14 @@ namespace stock.ViewModels
         public ObservableCollection<List<StockDetails>> stockDetails { get; set; }
         public bool CanDraw { get; set; }
         List<Company> CompaniesSelected;
-        
-        public HistoryViewModel(List<Company> companies = null)
+        String date;
+
+        public HistoryViewModel(List<Company> companies = null, String date = null)
         {
             Title = "Past Days";
             //company = c;
             CompaniesSelected = companies;
+            this.date = date;
             stockDetails = new ObservableCollection<List<StockDetails>>();
         }
 
@@ -98,7 +100,7 @@ namespace stock.ViewModels
             IsBusy = true;
             for(int i=0;i< CompaniesSelected.Count; i++)
             {
-                API.getHistory(CompaniesSelected[i].Symbol, "20181101", LoadHistoryHandler);
+                API.getHistory(CompaniesSelected[i].Symbol, date, LoadHistoryHandler);
             }
             
         }

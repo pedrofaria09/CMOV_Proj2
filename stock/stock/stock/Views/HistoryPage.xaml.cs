@@ -2,6 +2,7 @@
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Essentials;
 
 using stock.Models;
 using stock.ViewModels;
@@ -29,8 +30,10 @@ namespace stock.Views
             InitializeComponent();
             this.CompaniesSelected = companies;
             this.date = date;
-            BindingContext = this.viewModel = new HistoryViewModel(companies);
+            BindingContext = this.viewModel = new HistoryViewModel(companies, date);
             viewModel.stockDetails.CollectionChanged += StockDetails_CollectionChanged;
+
+
         }
 
         private void StockDetails_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -82,6 +85,15 @@ namespace stock.Views
         {
             if (!viewModel.CanDraw)
                 return;
+
+            // Get Metrics
+            var mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
+            // Width (in pixels)
+            var width = mainDisplayInfo.Width;
+            // Height (in pixels)
+            var height = mainDisplayInfo.Height;
+            Debug.WriteLine("width" + width);
+            Debug.WriteLine("height" + height);
 
             SKImageInfo info = args.Info;
             SKSurface surface = args.Surface;
