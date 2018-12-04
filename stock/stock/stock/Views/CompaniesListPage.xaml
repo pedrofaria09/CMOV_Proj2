@@ -16,34 +16,36 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="No locations to display. Please add a new location."
-                   FontSize="Medium"
-                   HorizontalOptions="Center">
-                <Label.Style>
-                    <Style TargetType="Label">
-                        <Setter Property="IsVisible" Value="False" />
-                        <Style.Triggers>
-                            <DataTrigger TargetType="Label" Binding="{Binding Path=IsCitiesEmpty}" Value="True" >
-                                <Setter Property="IsVisible" Value="True" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Label.Style>
-            </Label>
-
+            
+            <StackLayout x:Name="datepicket"
+                         Orientation="Horizontal">
+                
+                <Label Text="Choose Date:"
+                       FontSize="Medium"
+                       Margin="0, 10, 0, 0"
+                       HorizontalTextAlignment="Center" />
+            
+                <DatePicker x:Name="startDatePicker"
+                            Format="D"
+                            HorizontalOptions="FillAndExpand"
+                            DateSelected="OnDateSelected" />
+                    
+            </StackLayout>
+            
+            <BoxView HeightRequest="1" 
+                    BackgroundColor="Black" 
+                    HorizontalOptions="FillAndExpand" />
+            
             <ListView x:Name="CompaniesListView"
                           ItemsSource="{Binding Companies}"
                           VerticalOptions="FillAndExpand"
                           HasUnevenRows="true"
-                          IsPullToRefreshEnabled="true"
-                          IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                          CachingStrategy="RecycleElement"
                           ItemSelected="OnItemSelected">
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid BackgroundColor="{Binding IsSelected, Converter={StaticResource ColorSelected},Mode=OneWay,UpdateSourceEventName=PropertyChanged}">
+                            <Grid BackgroundColor="{Binding IsSelected, Converter={StaticResource ColorSelected},Mode=OneWay}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />

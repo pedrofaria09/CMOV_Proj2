@@ -21,6 +21,8 @@ namespace stock.Views
         CompaniesListViewModel viewModel;
         Company Company;
         int counter = 0;
+        TimeSpan timeSpan;
+
         public CompaniesListPage()
         {
             InitializeComponent();
@@ -29,9 +31,24 @@ namespace stock.Views
             BindingContext = viewModel = new CompaniesListViewModel();
         }
 
+        void OnDateSelected(object sender, DateChangedEventArgs args)
+        {
+            Recalculate();
+        }
+
+        void OnSwitchToggled(object sender, ToggledEventArgs args)
+        {
+            Recalculate();
+        }
+
+        void Recalculate()
+        {
+            timeSpan = DateTime.Now - startDatePicker.Date;
+            Debug.WriteLine("DATA dif:" + timeSpan.Days);
+        }
+
         void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            Debug.WriteLine("TESTE" + ((ListView)sender).SelectedItem);
             if (args.SelectedItem is Company company)
             {
                 Company = company;
@@ -51,7 +68,11 @@ namespace stock.Views
 
         async void GenerateMap(object sender, EventArgs e)
         {
-            if(Company!=null)
+            if(counter < 1 || counter > 2)
+                DependencyService.Get<IMessage>().ShortAlert("Choose 1 or 2 Companies");
+            else if (timeSpan.Days < 7 || timeSpan.Days > 30)
+                DependencyService.Get<IMessage>().ShortAlert("Choose between 7 and 30 days");
+            else
                 await Navigation.PushModalAsync(new NavigationPage(new HistoryPage(Company)));
         }
 

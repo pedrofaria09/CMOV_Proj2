@@ -16,6 +16,8 @@ namespace stock.MarkUpExtensions
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            Debug.WriteLine("VOu mudar a cor");
+
             if ((bool)value)
                 return Color.FromRgba(255, 153, 102, 255);
             else
