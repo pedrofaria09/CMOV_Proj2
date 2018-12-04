@@ -21,11 +21,11 @@ namespace stock.Views
         CompaniesListViewModel viewModel;
         Company Company;
         int counter = 0;
+        List<Company> CompaniesSelected = new List<Company>();
+
         public CompaniesListPage()
         {
             InitializeComponent();
-
-
             BindingContext = viewModel = new CompaniesListViewModel();
         }
 
@@ -38,11 +38,13 @@ namespace stock.Views
                 if (!company.IsSelected)
                 {
                     company.IsSelected = true;
+                    CompaniesSelected.Add(company);
                     counter++;
                 }
                 else
                 {
                     company.IsSelected = false;
+                    CompaniesSelected.Remove(company);
                     counter--;
                 }
             }
@@ -51,8 +53,8 @@ namespace stock.Views
 
         async void GenerateMap(object sender, EventArgs e)
         {
-            if(Company!=null)
-                await Navigation.PushModalAsync(new NavigationPage(new HistoryPage(Company)));
+            if(CompaniesSelected.Count>0)
+                await Navigation.PushModalAsync(new NavigationPage(new HistoryPage(CompaniesSelected)));
         }
 
         protected override void OnAppearing()
