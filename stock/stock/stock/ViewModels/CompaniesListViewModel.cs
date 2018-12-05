@@ -10,10 +10,8 @@ using stock.Views;
 using System.Net;
 using System.IO;
 using System.Linq;
-//using stock.Services;
 
 using System.Reflection;
-using System.Diagnostics;
 
 
 namespace stock.ViewModels
@@ -28,23 +26,6 @@ namespace stock.ViewModels
             Companies = new ObservableCollection<Company>();
 
             loadCompanies();
-
-            
-            // ...
-            // NOTE: use for debugging, not in released app code!
-            var assembly = typeof(CompaniesListPage).GetTypeInfo().Assembly;
-            foreach (var res in assembly.GetManifestResourceNames())
-            {
-                System.Diagnostics.Debug.WriteLine("found resource: " + res);
-            }
-
-            /*
-            MessagingCenter.Subscribe<AddCityPage, City>(this, "AddCity", async (obj, item) =>
-            {
-                var _item = item as City;
-                _item.DisplayName = _item.Name.Split(',').FirstOrDefault();
-                await DataStore.AddCityAsync(_item);
-            });*/
         }
 
         private void loadCompanies()
