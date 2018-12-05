@@ -13,8 +13,8 @@ using System.Linq;
 //using stock.Services;
 
 using System.Reflection;
-using System.Diagnostics;
-
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace stock.ViewModels
 {
@@ -25,6 +25,11 @@ namespace stock.ViewModels
         public CompaniesListViewModel()
         {
             Title = "Companies";
+
+            //Minimum_Slider = 10;
+            //Maximum_Slider = 50;
+            SliderValue = 20;
+
             Companies = new ObservableCollection<Company>();
 
             loadCompanies();
@@ -70,6 +75,5 @@ namespace stock.ViewModels
             c = new Company() { DisplayName = "AMD", Symbol = "AMD", IsSelected = false };
             Companies.Add(c);
         }
-
     }
 }
