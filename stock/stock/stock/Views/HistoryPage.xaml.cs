@@ -2,6 +2,7 @@
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Essentials;
 
 using stock.Models;
 using stock.ViewModels;
@@ -29,8 +30,10 @@ namespace stock.Views
             InitializeComponent();
             this.CompaniesSelected = companies;
             this.date = date;
-            BindingContext = this.viewModel = new HistoryViewModel(companies);
+            BindingContext = this.viewModel = new HistoryViewModel(companies, date);
             viewModel.stockDetails.CollectionChanged += StockDetails_CollectionChanged;
+
+
         }
 
         private void StockDetails_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -82,6 +85,16 @@ namespace stock.Views
         {
             if (!viewModel.CanDraw)
                 return;
+
+            // Get Metrics
+            var mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
+            // Width (in pixels)
+            var device_width = mainDisplayInfo.Width;
+            // Height (in pixels)
+            var device_height = mainDisplayInfo.Height;
+
+            var width_ratio = device_width/720;
+            var height_ratio = device_height/1280;
 
             SKImageInfo info = args.Info;
             SKSurface surface = args.Surface;
@@ -170,13 +183,13 @@ namespace stock.Views
                 var minValue = getMinValue() - 1;
                 var maxValue = getMaxValue() + 1;
                 var valueDifference = maxValue - minValue;
-                var horScale = 30f;
-                var vertScale = 200f;
-                var realVertScale = vertScale + 10;
+                var horScale = 30f * (float)width_ratio;
+                var vertScale = 200f * (float)height_ratio;
+                var realVertScale = vertScale + 10 * (float)height_ratio;
 
                 for (int j = 0; j < 5; j++)
                 {
-                    canvas.DrawText((minValue + (j * valueDifference) / 4).ToString(), stockDetails[0].Count * horScale, (vertScale * ((4 - j) / (float)4)) + 14, scalePaint);
+                    canvas.DrawText((minValue + (j * valueDifference) / 4).ToString(), 21f * horScale, (vertScale * ((4 - j) / (float)4)) + 14, scalePaint);
                     canvas.DrawLine(0, (vertScale * ((4 - j) / (float)4)) + 10, 21f * horScale, (vertScale * ((4 - j) / (float)4)) + 10, paint);
                 }
 

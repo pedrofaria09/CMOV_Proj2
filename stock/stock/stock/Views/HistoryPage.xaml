@@ -15,6 +15,20 @@
         <StackLayout>
             <skia:SKCanvasView x:Name="HistoryGraph" PaintSurface="OnCanvasViewPaintSurface" HeightRequest="200" Margin="5"/>
 
+            <StackLayout x:Name="slider">
+
+                <Slider x:Name="SliderView" 
+                        Minimum="{Binding Minimum_Slider}" 
+                        Maximum="{Binding Maximum_Slider}" 
+                        Value="{Binding SliderValue}"
+                        Grid.Row="0" Grid.Column="0" 
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="Center"/>
+                <Label x:Name="sliderLabel" Text="{Binding SliderDate, StringFormat='{}{0:dd/MM/yyyy}'}" 
+                       HorizontalOptions="FillAndExpand" />
+
+            </StackLayout>
+
             <ListView x:Name="HistoryListView"
                           ItemsSource="{Binding CompaniesStock}"
                           VerticalOptions="FillAndExpand"

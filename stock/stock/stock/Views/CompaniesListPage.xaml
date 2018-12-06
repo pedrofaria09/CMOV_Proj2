@@ -30,7 +30,7 @@
                             HorizontalOptions="FillAndExpand"
                             DateSelected="OnDateSelected" />
                     
-            </StackLayout>
+            </StackLayout>           
             
             <BoxView HeightRequest="1" 
                     BackgroundColor="Black" 

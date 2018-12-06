@@ -9,7 +9,6 @@ using stock.Services;
 using Xamarin.Forms;
 
 
-
 namespace stock.ViewModels
 {
     public class HistoryViewModel : BaseViewModel
@@ -17,14 +16,51 @@ namespace stock.ViewModels
         public ObservableCollection<List<StockDetails>> stockDetails { get; set; }
         public bool CanDraw { get; set; }
         List<Company> CompaniesSelected;
-
         public ObservableCollection<CompanyStock> CompaniesStock { get; set; }
+        String date;
 
-        public HistoryViewModel(List<Company> companies = null)
+        string  SliderDate_;
+        public string SliderDate
+        {
+            get { return SliderDate_; }
+            set
+            {
+                SetProperty(ref SliderDate_, value);
+            }
+        }
+
+        double Minimum_ = 0;
+        public double Minimum_Slider
+        {
+            get { return Minimum_; }
+            set { SetProperty(ref Minimum_, value); }
+        }
+
+        double Maximum_ = 100;
+        public double Maximum_Slider
+        {
+            get { return Maximum_; }
+            set { SetProperty(ref Maximum_, value); }
+        }
+
+        double SliderValue_ = 50;
+        public double SliderValue
+        {
+            get { return SliderValue_; }
+            set {
+                SetProperty(ref SliderValue_, value);
+                Slider_ValueChanged(); 
+            }
+        }
+
+
+        public HistoryViewModel(List<Company> companies = null, String date = null)
+
         {
             Title = "Past Days";
             //company = c;
             CompaniesSelected = companies;
+            this.date = date;
             stockDetails = new ObservableCollection<List<StockDetails>>();
             CompaniesStock = new ObservableCollection<CompanyStock>();
         }
@@ -37,7 +73,7 @@ namespace stock.ViewModels
             IsBusy = true;
             for(int i=0;i< CompaniesSelected.Count; i++)
             {
-                API.getHistory(CompaniesSelected[i].Symbol, "20181101", LoadHistoryHandler);
+                API.getHistory(CompaniesSelected[i].Symbol, date, LoadHistoryHandler);
             }
             
         }
@@ -58,7 +94,8 @@ namespace stock.ViewModels
                     List<StockDetails> details = new List<StockDetails>();
                     foreach (JObject o in response["results"].Children<JObject>())
                     {
-                        DateTime date = DateTime.ParseExact((String)o["tradingDay"], "yyyy-MM-dd",null);
+                        DateTime date = DateTime.ParseExact((string)o["tradingDay"], "yyyy-MM-dd",null);
+                        Debug.WriteLine("data " + date + " " + o["tradingDay"]);
                         float openValue = (float)o["open"];
                         float highValue = (float)o["high"];
                         float lowValue = (float)o["low"];
@@ -68,11 +105,13 @@ namespace stock.ViewModels
 
                         Debug.WriteLine("recebi " + openValue + " " + highValue + " " + lowValue + " " + closeValue + " " + volume);
 
-                        StockDetails sd = new StockDetails() { openValue = openValue, highValue = highValue, lowValue = lowValue, closeValue = closeValue, volume = volume };
+                        StockDetails sd = new StockDetails() { date = date, openValue = openValue, highValue = highValue, lowValue = lowValue, closeValue = closeValue, volume = volume };
                         details.Add(sd);
                         
                     }
-                    for(int i=0;i< CompaniesSelected.Count; i++)
+                    
+
+                    for (int i=0;i< CompaniesSelected.Count; i++)
                     {
                         if (CompaniesSelected[i].Symbol == symbol)
                         {
@@ -80,12 +119,14 @@ namespace stock.ViewModels
                             CompaniesStock.Add(Cs);
                         }
                     }
-                    
+                    SliderDate = details[0].date.ToString("dd/MM/yyyy");
                     Device.BeginInvokeOnMainThread(() =>
                     {
+                        
                         Debug.WriteLine("vou autorizar " + details.Count);
                         CanDraw = true;
                         stockDetails.Add(details);
+                        SliderDate = stockDetails[0][0].date.ToString("dd/MM/yyyy");
                     });
                     
                 }
@@ -98,6 +139,26 @@ namespace stock.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+        public void Slider_ValueChanged()
+        {
+            if(stockDetails!=null && stockDetails.Count > 0 && CompaniesStock!=null && CompaniesStock.Count>0)
+            {
+                int maxValue = stockDetails[0].Count;
+                int position = (int)(Math.Floor(SliderValue_ / (100 / (double)maxValue)));
+                
+                if (position >= maxValue)
+                    position = maxValue - 1;
+                SliderDate = stockDetails[0][position].date.ToString("dd/MM/yyyy");
+                
+                for (int i=0;i< CompaniesStock.Count; i++)
+                {
+                    CompaniesStock[i].Details = stockDetails[i][position];
+                }
+
+            }
+            
         }
     }
 }
