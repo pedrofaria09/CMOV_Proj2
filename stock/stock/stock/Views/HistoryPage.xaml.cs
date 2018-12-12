@@ -39,7 +39,7 @@ namespace stock.Views
         private void StockDetails_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             
-            if (viewModel.CanDraw)
+            if (viewModel.CanDraw && viewModel.stockDetails.Count>0)
             {
                 Debug.WriteLine("tamanho teste " + viewModel.stockDetails[0].Count + " lol " + viewModel.CanDraw);
                 HistoryGraph.InvalidateSurface();
@@ -234,10 +234,10 @@ namespace stock.Views
                             }
                             else
                             {
-                                path.LineTo(i * (21f * horScale) / (stockDetail.Count - 1), ((stockDetail[i].closeValue - localMinValue) * vertScale / localValueDifference) + (realVertScale - vertScale));
+                                path.LineTo(i * (21f * horScale) / (stockDetail.Count - 1), ((stockDetail[i].closeValue - minValue) * vertScale / (maxValue-minValue)) + (realVertScale - vertScale));
                             }
-                            invisiblePath.LineTo(i * (21f * horScale) / (stockDetail.Count - 1), ((stockDetail[i].closeValue - localMinValue) * vertScale / localValueDifference) + (realVertScale - vertScale));
-
+                            invisiblePath.LineTo(i * (21f * horScale) / (stockDetail.Count - 1), ((stockDetail[i].closeValue - minValue) * vertScale / (maxValue - minValue)) + (realVertScale - vertScale));
+                            Debug.WriteLine("valor y = " + ((stockDetail[i].closeValue - localMinValue) * vertScale / localValueDifference) + (realVertScale - vertScale));
                         }
 
                         paint.Color = Color.Blue.ToSKColor();

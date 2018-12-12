@@ -143,18 +143,19 @@ namespace stock.ViewModels
 
         public void Slider_ValueChanged()
         {
-            if(stockDetails!=null && stockDetails.Count > 0 && CompaniesStock!=null && CompaniesStock.Count>0)
+            if(stockDetails!=null && stockDetails.Count > 0 && CompaniesStock!=null && CompaniesStock.Count>0 && CompaniesStock.Count == stockDetails.Count)
             {
                 int maxValue = stockDetails[0].Count;
-                int position = (int)(Math.Floor(SliderValue_ / (100 / (double)maxValue)));
+                int position = (int)Math.Floor(SliderValue_ / (100 / (double)maxValue));
                 
                 if (position >= maxValue)
                     position = maxValue - 1;
                 SliderDate = stockDetails[0][position].date.ToString("dd/MM/yyyy");
-                
+                //Debug.WriteLine("pqp pra esta merda " + CompaniesStock.Count + " " + stockDetails.Count);
                 for (int i=0;i< CompaniesStock.Count; i++)
                 {
-                    CompaniesStock[i].Details = stockDetails[i][position];
+                    if(i< stockDetails.Count)
+                        CompaniesStock[i].Details = stockDetails[i][position];
                 }
 
             }
