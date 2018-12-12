@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
@@ -16,16 +16,26 @@
             <skia:SKCanvasView x:Name="HistoryGraph" PaintSurface="OnCanvasViewPaintSurface" HeightRequest="200" Margin="5"/>
 
             <StackLayout x:Name="slider">
-
+                <Label Text="Slide to change day" 
+                       HorizontalTextAlignment="Center" 
+                       Font="Bold,20"
+                       TextColor="Teal"/>
+                
                 <Slider x:Name="SliderView" 
                         Minimum="{Binding Minimum_Slider}" 
                         Maximum="{Binding Maximum_Slider}" 
                         Value="{Binding SliderValue}"
                         Grid.Row="0" Grid.Column="0" 
                         HorizontalOptions="FillAndExpand"
-                        VerticalOptions="Center"/>
-                <Label x:Name="sliderLabel" Text="{Binding SliderDate, StringFormat='{}{0:dd/MM/yyyy}'}" 
-                       HorizontalOptions="FillAndExpand" />
+                        VerticalOptions="Center"
+                        HeightRequest="25"
+                        BackgroundColor="Silver"/>
+                
+                <Label x:Name="sliderLabel" 
+                       Text="{Binding SliderDate, StringFormat='{}{0:dd/MM/yyyy}'}" 
+                       HorizontalTextAlignment="Center"
+                       Font="Bold,18"
+                       TextColor="Teal"/>
 
             </StackLayout>
 
@@ -53,21 +63,21 @@
                                     <Label Text="{Binding Details.closeValue, StringFormat='Close Value: {0}'}" 
                                                LineBreakMode="NoWrap"
                                                Style="{DynamicResource ListItemDetailTextStyle}"
-                                               FontSize="13" />
+                                               FontSize="14" />
                                     <Label Text="{Binding Details.highValue, StringFormat='Highest Value: {0}'}" 
                                                LineBreakMode="NoWrap"
                                                Style="{DynamicResource ListItemDetailTextStyle}"
-                                               FontSize="13" />
+                                               FontSize="4" />
                                 </StackLayout>
-                                <StackLayout Grid.Column="1" Grid.Row="1" BackgroundColor="LightCyan">
+                                <StackLayout Grid.Column="1" Grid.Row="1" BackgroundColor="LightCyan" Padding="0,0,40,0">
                                     <Label Text="{Binding Details.openValue, StringFormat='Open Value: {0}'}" 
                                                LineBreakMode="NoWrap"
                                                Style="{DynamicResource ListItemDetailTextStyle}"
-                                               FontSize="13" />
+                                               FontSize="14" />
                                     <Label Text="{Binding Details.lowValue, StringFormat='Lowest Value: {0}'}" 
                                                LineBreakMode="NoWrap"
                                                Style="{DynamicResource ListItemDetailTextStyle}"
-                                               FontSize="13" />
+                                               FontSize="14" />
                                 </StackLayout>
                             </Grid>
                         </ViewCell>
