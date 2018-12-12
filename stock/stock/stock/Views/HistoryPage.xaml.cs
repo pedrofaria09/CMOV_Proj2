@@ -39,10 +39,10 @@ namespace stock.Views
         private void StockDetails_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             
-            if (viewModel.CanDraw)
+            if (viewModel.CanDraw && viewModel.stockDetails.Count>0)
             {
-                Debug.WriteLine("tamanho teste " + viewModel.stockDetails[0].Count + " lol " + viewModel.CanDraw);
-                HistoryGraph.InvalidateSurface();
+
+                 HistoryGraph.InvalidateSurface();
             }
                 
         }
