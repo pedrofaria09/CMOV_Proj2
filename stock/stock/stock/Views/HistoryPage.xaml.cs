@@ -59,8 +59,6 @@ namespace stock.Views
             if (width> height)
                 HistoryGraph.HeightRequest = device_height / 1280 * 200;
             else HistoryGraph.HeightRequest = device_height / 1280 * 200;
-
-
         }
 
         private void StockDetails_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -273,7 +271,7 @@ namespace stock.Views
                             Debug.WriteLine("tou a desenhar " + stockDetail[i].closeValue);
                             if (i == 0)
                             {
-                                path.MoveTo(i * (21f * horScale) / (stockDetail.Count - 1), vertScale - ((stockDetail[i].closeValue - localMinValue) * vertScale / localValueDifference) + (realVertScale - vertScale));
+                                path.MoveTo(i * (21f * horScale) / (stockDetail.Count - 1), vertScale - ((stockDetail[i].closeValue - minValue) * vertScale / (maxValue - minValue)) + (realVertScale - vertScale));
                             }
                             else
                             {
