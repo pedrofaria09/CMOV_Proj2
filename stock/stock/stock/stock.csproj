@@ -40,6 +40,8 @@
     <PackageReference Include="SkiaSharp" Version="1.68.0" />
     <PackageReference Include="SkiaSharp.Views" Version="1.68.0" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="1.68.0" />
+    <PackageReference Include="Sylapse.MainThreadDispatch" Version="1.0.3" />
+    <PackageReference Include="System.Runtime.WindowsRuntime" Version="4.3.0" />
     <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
     <PackageReference Include="Xamarin.Essentials" Version="1.0.0" />
   </ItemGroup>

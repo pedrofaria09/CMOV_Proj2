@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using Xamarin.Forms;
 
 namespace stock.Models
 {
@@ -23,15 +22,26 @@ namespace stock.Models
             }
         }
 
+        #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
-
         public void OnPropertyChanged(string propertyName)
         {
+            try
+            {
+                Debug.WriteLine("recebi update de company stock");
+                PropertyChangedEventHandler handler = PropertyChanged;
+                Debug.WriteLine("passei " + PropertyChanged);
 
-            Debug.WriteLine("recebi update de company stock");
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler == null) return;
-            handler(this, new PropertyChangedEventArgs(propertyName));
+                if (handler == null) return;
+                Debug.WriteLine("nao é nulo");
+                handler(this, new PropertyChangedEventArgs(propertyName));
+                Debug.WriteLine("passei 1");
+            }
+            catch (InvalidCastException e)
+            {
+                Debug.WriteLine(e.Message);
+            }
         }
+        #endregion
     }
 }

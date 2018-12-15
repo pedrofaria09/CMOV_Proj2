@@ -31,14 +31,14 @@ namespace stock.Views
             this.CompaniesSelected = companies;
             this.date = date;
             BindingContext = this.viewModel = new HistoryViewModel(companies, date);
+            Debug.WriteLine("vou criar o handler");
             viewModel.stockDetails.CollectionChanged += StockDetails_CollectionChanged;
-
-
         }
 
         private void StockDetails_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            
+
+            Debug.WriteLine("a minha coleção mudou");
             if (viewModel.CanDraw && viewModel.stockDetails.Count>0)
             {
 
@@ -86,6 +86,7 @@ namespace stock.Views
             if (!viewModel.CanDraw)
                 return;
 
+            Debug.WriteLine("vou buscar as dimensoes do device");
             // Get Metrics
             var mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
             // Width (in pixels)
@@ -139,7 +140,7 @@ namespace stock.Views
                 {
                     Style = SKPaintStyle.Fill,
                     Color = Color.Black.ToSKColor(),
-                    TextSize = 30,
+                    TextSize = 50,
                     TextAlign = SKTextAlign.Center
                 };
 
@@ -163,7 +164,7 @@ namespace stock.Views
                 {
                     Style = SKPaintStyle.Fill,
                     Color = Color.Gray.ToSKColor(),
-                    TextSize = 10,
+                    TextSize = 20,
                     //TextAlign = SKTextAlign.Center
                 };
 
@@ -184,9 +185,21 @@ namespace stock.Views
                 var maxValue = getMaxValue() + 1;
                 var valueDifference = maxValue - minValue;
                 var horScale = 30f * (float)width_ratio;
-                var vertScale = 200f * (float)height_ratio;
+                var vertScale = 350f * (float)height_ratio;
                 var realVertScale = vertScale + 10 * (float)height_ratio;
 
+                int number_of_days = stockDetails[0].Count;
+                if (number_of_days > 6)
+                    number_of_days = 6;
+
+                //linhas verticais
+                for (int j = 0; j < number_of_days; j++)
+                {
+                    //canvas.DrawText((minValue + (j * valueDifference) / 4).ToString(), 21f * horScale, (vertScale * ((4 - j) / (float)4)) + 14, scalePaint);
+                    canvas.DrawLine(j * (21f * horScale) / (number_of_days - 1), 10, j * (21f * horScale) / (number_of_days - 1), vertScale, paint);
+                }
+
+                //linhas horizontais
                 for (int j = 0; j < 5; j++)
                 {
                     canvas.DrawText((minValue + (j * valueDifference) / 4).ToString(), 21f * horScale, (vertScale * ((4 - j) / (float)4)) + 14, scalePaint);
@@ -230,13 +243,13 @@ namespace stock.Views
                             Debug.WriteLine("tou a desenhar " + stockDetail[i].closeValue);
                             if (i == 0)
                             {
-                                path.MoveTo(i * (21f * horScale) / (stockDetail.Count - 1), ((stockDetail[i].closeValue - localMinValue) * vertScale / localValueDifference) + (realVertScale - vertScale));
+                                path.MoveTo(i * (21f * horScale) / (stockDetail.Count - 1), vertScale - ((stockDetail[i].closeValue - localMinValue) * vertScale / localValueDifference) + (realVertScale - vertScale));
                             }
                             else
                             {
-                                path.LineTo(i * (21f * horScale) / (stockDetail.Count - 1), ((stockDetail[i].closeValue - minValue) * vertScale / (maxValue-minValue)) + (realVertScale - vertScale));
+                                path.LineTo(i * (21f * horScale) / (stockDetail.Count - 1), vertScale -  ((stockDetail[i].closeValue - minValue) * vertScale / (maxValue-minValue)) + (realVertScale - vertScale));
                             }
-                            invisiblePath.LineTo(i * (21f * horScale) / (stockDetail.Count - 1), ((stockDetail[i].closeValue - minValue) * vertScale / (maxValue - minValue)) + (realVertScale - vertScale));
+                            invisiblePath.LineTo(i * (21f * horScale) / (stockDetail.Count - 1), vertScale - ((stockDetail[i].closeValue - minValue) * vertScale / (maxValue - minValue)) + (realVertScale - vertScale));
                             Debug.WriteLine("valor y = " + ((stockDetail[i].closeValue - localMinValue) * vertScale / localValueDifference) + (realVertScale - vertScale));
                         }
 
