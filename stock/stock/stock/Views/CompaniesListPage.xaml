@@ -74,6 +74,14 @@
                                                >
                                     </Image>
                                 </StackLayout>
+                                <StackLayout Padding="10"
+                                             Grid.Column="2"
+                                             HorizontalOptions="End"
+                                             VerticalOptions="Center">
+                                    <Switch IsToggled="{Binding IsSelected,Mode=OneWay}"
+                                            Toggled="IsSelected2"
+                                            IsEnabled="false"/>
+                                </StackLayout>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

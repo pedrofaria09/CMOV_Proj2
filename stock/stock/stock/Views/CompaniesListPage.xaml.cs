@@ -63,6 +63,11 @@ namespace stock.Views
             ((ListView)sender).SelectedItem = null;
         }
 
+        void IsSelected2(object sender, ToggledEventArgs args)
+        {
+            Debug.WriteLine("ARGS: " + args.Value);
+        }
+
         async void GenerateMap(object sender, EventArgs e)
         {
             String date = startDatePicker.Date.ToString("yyyyMMdd");

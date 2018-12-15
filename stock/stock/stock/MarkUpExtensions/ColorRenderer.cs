@@ -19,7 +19,8 @@ namespace stock.MarkUpExtensions
             Debug.WriteLine("VOu mudar a cor");
 
             if ((bool)value)
-                return Color.FromRgba(255, 153, 102, 255);
+                //return Color.FromRgba(255, 153, 102, 255);
+                return Color.FromRgba(255, 225, 255, 0);
             else
                 return Color.FromRgba(255,225,255,0);
         }
