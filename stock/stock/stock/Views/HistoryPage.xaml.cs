@@ -40,9 +40,27 @@ namespace stock.Views
             var mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
             // Height (in pixels)
             var device_height = mainDisplayInfo.Height;
-            if (device_height == 1280)
-                HistoryGraph.HeightRequest = 200;
-            else HistoryGraph.HeightRequest = 300;
+            var device_width = mainDisplayInfo.Width;
+            double max = device_height;
+            if (device_width > max)
+                max = device_width;
+            HistoryGraph.HeightRequest = max / 1280 * 200;
+        }
+
+        protected override void OnSizeAllocated(double width, double height)
+        {
+            base.OnSizeAllocated(width, height); //must be called
+            Debug.WriteLine("vou atualizar "  + width + " " + height);
+            var mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
+            // Height (in pixels)
+            var device_height = mainDisplayInfo.Height;
+            var device_width = mainDisplayInfo.Width;
+
+            if (width> height)
+                HistoryGraph.HeightRequest = device_height / 1280 * 200;
+            else HistoryGraph.HeightRequest = device_height / 1280 * 200;
+
+
         }
 
         private void StockDetails_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
