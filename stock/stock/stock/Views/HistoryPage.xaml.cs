@@ -189,14 +189,15 @@ namespace stock.Views
                 var realVertScale = vertScale + 10 * (float)height_ratio;
 
                 int number_of_days = stockDetails[0].Count;
-                if (number_of_days > 6)
-                    number_of_days = 6;
+                if (number_of_days > 7)
+                    number_of_days = 7;
 
                 //linhas verticais
                 for (int j = 0; j < number_of_days; j++)
                 {
-                    //canvas.DrawText((minValue + (j * valueDifference) / 4).ToString(), 21f * horScale, (vertScale * ((4 - j) / (float)4)) + 14, scalePaint);
-                    canvas.DrawLine(j * (21f * horScale) / (number_of_days - 1), 10, j * (21f * horScale) / (number_of_days - 1), vertScale, paint);
+                    int number = Convert.ToInt32(Math.Ceiling((double)stockDetails[0].Count / number_of_days*j));
+                    canvas.DrawText(stockDetails[0][number].date.ToString("dd/MM"), number * (21f * horScale) / (stockDetails[0].Count - 1), realVertScale + 25, scalePaint);
+                    canvas.DrawLine(number * (21f * horScale) / (stockDetails[0].Count - 1), 10, number * (21f * horScale) / (stockDetails[0].Count - 1), realVertScale, paint);
                 }
 
                 //linhas horizontais
