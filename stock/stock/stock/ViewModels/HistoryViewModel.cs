@@ -16,7 +16,6 @@ namespace stock.ViewModels
         public ObservableCollection<List<StockDetails>> stockDetails { get; set; }
         public bool CanDraw { get; set; }
         List<Company> CompaniesSelected;
-        ObservableCollection<CompanyStock> tempCollection { get; set; }
         public ObservableCollection<CompanyStock> CompaniesStock { get; set; }
         String date;
 
@@ -64,7 +63,6 @@ namespace stock.ViewModels
             this.date = date;
             stockDetails = new ObservableCollection<List<StockDetails>>();
             CompaniesStock = new ObservableCollection<CompanyStock>();
-            tempCollection = new ObservableCollection<CompanyStock>();
         }
 
         public void LoadHistory()
@@ -111,23 +109,20 @@ namespace stock.ViewModels
                         details.Add(sd);
                         
                     }
-                    
 
+                    CompanyStock Cs = null;
                     for (int i=0;i< CompaniesSelected.Count; i++)
                     {
                         if (CompaniesSelected[i].Symbol == symbol)
                         {
-                            CompanyStock Cs = new CompanyStock() { DisplayName = CompaniesSelected[i].DisplayName, Details = details[0] };
-                            tempCollection.Add(Cs);
-
+                            Cs = new CompanyStock() { DisplayName = CompaniesSelected[i].DisplayName, Details = details[0] };
+                            
                         }
                     }
                     SliderDate = details[0].date.ToString("dd/MM/yyyy");
                     Device.BeginInvokeOnMainThread(() =>
                     {
-                        //if (tempCollection.Count == CompaniesSelected.Count)
-                        //    CompaniesStock = tempCollection;
-                        CompaniesStock.Add(tempCollection[tempCollection.Count-1]);
+                        CompaniesStock.Add(Cs);
                         Debug.WriteLine("vou autorizar " + details.Count);
                         CanDraw = true;
                         stockDetails.Add(details);
@@ -156,7 +151,7 @@ namespace stock.ViewModels
                 if (position >= maxValue)
                     position = maxValue - 1;
                 SliderDate = stockDetails[0][position].date.ToString("dd/MM/yyyy");
-                //Debug.WriteLine("pqp pra esta merda " + CompaniesStock.Count + " " + stockDetails.Count);
+                Debug.WriteLine("pqp pra esta merda " + CompaniesStock.Count + " " + stockDetails.Count);
                 for (int i=0;i< CompaniesStock.Count; i++)
                 {
                     if(i< stockDetails.Count)

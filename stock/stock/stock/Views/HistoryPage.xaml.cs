@@ -33,6 +33,16 @@ namespace stock.Views
             BindingContext = this.viewModel = new HistoryViewModel(companies, date);
             Debug.WriteLine("vou criar o handler");
             viewModel.stockDetails.CollectionChanged += StockDetails_CollectionChanged;
+
+            
+
+
+            var mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
+            // Height (in pixels)
+            var device_height = mainDisplayInfo.Height;
+            if (device_height == 1280)
+                HistoryGraph.HeightRequest = 200;
+            else HistoryGraph.HeightRequest = 300;
         }
 
         private void StockDetails_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -203,6 +213,7 @@ namespace stock.Views
                 //linhas horizontais
                 for (int j = 0; j < 5; j++)
                 {
+                    Debug.WriteLine("vai um bug e aparece logo outro " + (minValue + (j * valueDifference) / 4));
                     canvas.DrawText((minValue + (j * valueDifference) / 4).ToString(), 21f * horScale, (vertScale * ((4 - j) / (float)4)) + 14, scalePaint);
                     canvas.DrawLine(0, (vertScale * ((4 - j) / (float)4)) + 10, 21f * horScale, (vertScale * ((4 - j) / (float)4)) + 10, paint);
                 }
