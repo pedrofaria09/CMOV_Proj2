@@ -16,6 +16,7 @@ namespace stock.ViewModels
         public ObservableCollection<List<StockDetails>> stockDetails { get; set; }
         public bool CanDraw { get; set; }
         List<Company> CompaniesSelected;
+        ObservableCollection<CompanyStock> tempCollection { get; set; }
         public ObservableCollection<CompanyStock> CompaniesStock { get; set; }
         String date;
 
@@ -63,6 +64,7 @@ namespace stock.ViewModels
             this.date = date;
             stockDetails = new ObservableCollection<List<StockDetails>>();
             CompaniesStock = new ObservableCollection<CompanyStock>();
+            tempCollection = new ObservableCollection<CompanyStock>();
         }
 
         public void LoadHistory()
@@ -116,13 +118,16 @@ namespace stock.ViewModels
                         if (CompaniesSelected[i].Symbol == symbol)
                         {
                             CompanyStock Cs = new CompanyStock() { DisplayName = CompaniesSelected[i].DisplayName, Details = details[0] };
-                            CompaniesStock.Add(Cs);
+                            tempCollection.Add(Cs);
+
                         }
                     }
                     SliderDate = details[0].date.ToString("dd/MM/yyyy");
                     Device.BeginInvokeOnMainThread(() =>
                     {
-                        
+                        //if (tempCollection.Count == CompaniesSelected.Count)
+                        //    CompaniesStock = tempCollection;
+                        CompaniesStock.Add(tempCollection[tempCollection.Count-1]);
                         Debug.WriteLine("vou autorizar " + details.Count);
                         CanDraw = true;
                         stockDetails.Add(details);
