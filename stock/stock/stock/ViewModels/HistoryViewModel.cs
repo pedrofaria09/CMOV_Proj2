@@ -109,20 +109,20 @@ namespace stock.ViewModels
                         details.Add(sd);
                         
                     }
-                    
 
+                    CompanyStock Cs = null;
                     for (int i=0;i< CompaniesSelected.Count; i++)
                     {
                         if (CompaniesSelected[i].Symbol == symbol)
                         {
-                            CompanyStock Cs = new CompanyStock() { DisplayName = CompaniesSelected[i].DisplayName, Details = details[0] };
-                            CompaniesStock.Add(Cs);
+                            Cs = new CompanyStock() { DisplayName = CompaniesSelected[i].DisplayName, Details = details[0] };
+                            
                         }
                     }
                     SliderDate = details[0].date.ToString("dd/MM/yyyy");
                     Device.BeginInvokeOnMainThread(() =>
                     {
-                        
+                        CompaniesStock.Add(Cs);
                         Debug.WriteLine("vou autorizar " + details.Count);
                         CanDraw = true;
                         stockDetails.Add(details);
@@ -151,7 +151,7 @@ namespace stock.ViewModels
                 if (position >= maxValue)
                     position = maxValue - 1;
                 SliderDate = stockDetails[0][position].date.ToString("dd/MM/yyyy");
-                //Debug.WriteLine("pqp pra esta merda " + CompaniesStock.Count + " " + stockDetails.Count);
+                Debug.WriteLine("pqp pra esta merda " + CompaniesStock.Count + " " + stockDetails.Count);
                 for (int i=0;i< CompaniesStock.Count; i++)
                 {
                     if(i< stockDetails.Count)
