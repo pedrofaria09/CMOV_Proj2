@@ -44,7 +44,7 @@ namespace stock.Views
             double max = device_height;
             if (device_width > max)
                 max = device_width;
-            HistoryGraph.HeightRequest = max / 1280 * 200;
+            HistoryGraph.HeightRequest = max / 1280 * 240;
         }
 
         protected override void OnSizeAllocated(double width, double height)
@@ -56,9 +56,11 @@ namespace stock.Views
             var device_height = mainDisplayInfo.Height;
             var device_width = mainDisplayInfo.Width;
 
-            if (width> height)
-                HistoryGraph.HeightRequest = device_height / 1280 * 200;
-            else HistoryGraph.HeightRequest = device_height / 1280 * 200;
+            if (mainDisplayInfo.Height == 1080)
+                HistoryGraph.HeightRequest = 320;
+            else if (width> height)
+                HistoryGraph.HeightRequest = device_height / 1280 * 240;
+            else HistoryGraph.HeightRequest = device_height / 1280 * 240;
         }
 
         private void StockDetails_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -217,6 +219,23 @@ namespace stock.Views
                 int number_of_days = stockDetails[0].Count;
                 if (number_of_days > 7)
                     number_of_days = 7;
+
+                for (int j = 0; j < stockDetails.Count; j++)
+                {
+                    for (int z = 0; z < viewModel.CompaniesStock.Count;z++) {
+                        for(int w = 0;w < stockDetails[j].Count; w++)
+                        {
+                            if(stockDetails[j][w]== viewModel.CompaniesStock[z].Details)
+                            {
+                                SKPaint temp = traceColors[j].Clone();
+                                temp.StrokeWidth = 10;
+                                canvas.DrawText(viewModel.CompaniesStock[z].DisplayName, 30, realVertScale + 45 + j * 45, paint);
+                                canvas.DrawLine(0, realVertScale + 40 + j * 45, 20, realVertScale + 40 + j * 45, temp);
+                            }
+                        }
+                    }
+                    
+                }
 
                 //linhas verticais
                 for (int j = 0; j < number_of_days; j++)
